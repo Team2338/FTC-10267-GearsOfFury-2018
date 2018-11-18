@@ -69,7 +69,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
+   // HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
     public DcMotor leftDrive0 = null;
@@ -110,9 +110,12 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
-                          robot.leftDrive.getCurrentPosition(),
-                          robot.rightDrive.getCurrentPosition());
-        telemetry.update();
+               /* leftDrive0.getCurrentPosition(),
+                leftDrive1.getCurrentPosition(),
+                rightDrive2.getCurrentPosition(),
+                rightDrive3.getCurrentPosition(),*/
+
+        telemetry.update());
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -123,8 +126,6 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
         encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
-        robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
-        robot.rightClaw.setPosition(0.0);
         sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
@@ -149,8 +150,10 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+           /* newLeftTarget = leftDrive0.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newLeftTarget = leftDrive1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget =rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newRightTarget = rightDrive3.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             leftDrive0.setTargetPosition(newLeftTarget);
             leftDrive1.setTargetPosition(newLeftTarget);
             rightDrive2.setTargetPosition(newRightTarget);
@@ -160,12 +163,14 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
             leftDrive0.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDrive3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDrive3.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftDrive.setPower(Math.abs(speed));
-            robot.rightDrive.setPower(Math.abs(speed));
+            leftDrive0.setPower(Math.abs(speed));
+            leftDrive1.setPower(Math.abs(speed));
+            rightDrive2.setPower(Math.abs(speed));
+            rightDrive3.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -175,17 +180,17 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (robot.leftDrive.isBusy() && robot.rightDrive.isBusy())) {
+                   (leftDrive0.isBusy() && rightDrive2.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+               // telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                        leftDrive0.getCurrentPosition(),
-                        leftDrive1.getCurrentPosition(),
-                        rightDrive2.getCurrentPosition(),
-                        rightDrive3.getCurrentPosition());
+                       // leftDrive0.getCurrentPosition(),
+                       // leftDrive1.getCurrentPosition(),
+                       // rightDrive2.getCurrentPosition(),
+                       // rightDrive3.getCurrentPosition());
 
-                telemetry.update();
+                telemetry.update());
             }
 
             // Stop all motion;
