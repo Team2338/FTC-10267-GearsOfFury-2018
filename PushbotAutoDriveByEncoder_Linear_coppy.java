@@ -61,7 +61,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Encoder", group="Pushbot")
+@Autonomous(name="Pushbot: Auto Drive By EncoderBAD", group="Pushbot")
 //@Disabled
 public class PushbotAutoDriveByEncoder_Linear_coppy extends LinearOpMode {
 
@@ -182,7 +182,7 @@ public class PushbotAutoDriveByEncoder_Linear_coppy extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (leftDrive0.isBusy() && rightDrive2.isBusy())) {
+                   (robot.leftDrive0.isBusy() && robot.rightDrive2.isBusy())) {
 
                 // Display it for the driver.
                // telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
