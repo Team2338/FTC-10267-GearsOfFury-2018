@@ -115,12 +115,13 @@ public class TankDrive extends LinearOpMode {
             double driver =  -gamepad1.right_stick_y;
             double ArmPower = gamepad2.left_stick_y;
             double tgtPower = 0;
-            double suckspeed = gamepad2.right_stick_y;
+            double suckspeed = gamepad2.right_trigger;
+            double zuckspeed = gamepad2.left_trigger;
             //leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             rightArm.setPower(ArmPower);
             leftArm.setPower(ArmPower);
-            Zuck.setPower(suckspeed);
+
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
@@ -128,7 +129,7 @@ public class TankDrive extends LinearOpMode {
 
             // Send calculated power to wheels
             while (gamepad2.left_bumper) {
-                /*if (rightArm.getTargetPosition() - 20 >= rightArm.getCurrentPosition() && (rightArm.getTargetPosition() + 20 <= rightArm.getCurrentPosition())) {
+                if (rightArm.getTargetPosition() - 20 >= rightArm.getCurrentPosition() && (rightArm.getTargetPosition() + 20 <= rightArm.getCurrentPosition())) {
                     rightArm.setPower(0);
                 } else if (rightArm.getCurrentPosition() < rightArm.getTargetPosition()) {
                     ArmPower = ((rightArm.getCurrentPosition() - rightArm.getTargetPosition()) * .01);
@@ -136,7 +137,7 @@ public class TankDrive extends LinearOpMode {
                 } else if (rightArm.getCurrentPosition() > rightArm.getTargetPosition()) {
                     ArmPower = ((rightArm.getCurrentPosition() - rightArm.getTargetPosition()) * .01);
                     rightArm.setPower(ArmPower);
-                }*/
+                }
                 if (leftArm.getTargetPosition() - 35 >= leftArm.getCurrentPosition() && (leftArm.getTargetPosition() + 35 <= leftArm.getCurrentPosition())){
                     leftArm.setPower(0);
                     rightArm.setPower(0);
@@ -169,6 +170,7 @@ public class TankDrive extends LinearOpMode {
                 rightDrive3.setPower(-driver*.7);
             }
 
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", drivel, driver);
@@ -176,6 +178,12 @@ public class TankDrive extends LinearOpMode {
             telemetry.addData("Target Power", tgtPower);
             telemetry.addData("Arm_PositionL", leftArm.getCurrentPosition());
             telemetry.update();
+
+            if (gamepad2.right_trigger >= .05){
+                Zuck.setPower(suckspeed);
+            }
+            else if (gamepad2.left_trigger >= .05);
+            Zuck.setPower(-zuckspeed);
         }
     }
 }
