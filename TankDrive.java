@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -67,6 +68,9 @@ public class TankDrive extends LinearOpMode {
     private DcMotor rightArm = null;
     private DcMotor leftArm = null;
     private DcMotor Zuck = null;
+    public Servo servoTest0;
+    public Servo servoTest1;
+    private DcMotor Arm = null;
 
     double suckpeed = 0;
 
@@ -88,6 +92,8 @@ public class TankDrive extends LinearOpMode {
         rightArm = hardwareMap.get(DcMotor.class, "right_Arm");
         leftArm = hardwareMap.get(DcMotor.class, "left_Arm");
         Zuck = hardwareMap.get(DcMotor.class, "Zuck");
+        servoTest0 = hardwareMap.get(Servo.class, "servo1");
+        servoTest1 = hardwareMap.get(Servo.class, "servo1");
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive0.setDirection(DcMotor.Direction.FORWARD);
@@ -170,7 +176,28 @@ public class TankDrive extends LinearOpMode {
                 rightDrive3.setPower(-driver*.7);
             }
 
+            if (gamepad1.a) {
+                Arm.setTargetPosition(0);
+            }
+            if (gamepad1.a) {
+                Arm.setTargetPosition(1);
+            }
+            while (gamepad1.left_bumper) {
+                if (Arm.getTargetPosition() - 20 >= Arm.getCurrentPosition() && (Arm.getTargetPosition() + 20 <= Arm.getCurrentPosition())) {
+                    Arm.setPower(0);
+                } else if (Arm.getCurrentPosition() < Arm.getTargetPosition()) {
+                    ArmPower = ((Arm.getCurrentPosition() - Arm.getTargetPosition()) * .01);
+                    Arm.setPower(ArmPower);
+                } else if (Arm.getCurrentPosition() > Arm.getTargetPosition()) {
+                    ArmPower = ((Arm.getCurrentPosition() - Arm.getTargetPosition()) * .01);
+                    Arm.setPower(ArmPower);
+                }
 
+
+            }
+            if (gamepad1.right_bumper) {
+                Arm.setPower(0);
+            }
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", drivel, driver);
