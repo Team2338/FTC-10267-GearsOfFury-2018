@@ -70,6 +70,10 @@ public class TankDrive extends LinearOpMode {
     private DcMotor Zuck = null;
     public Servo servoTest0;
     public Servo servoTest1;
+
+    public Servo servoArm0;
+    public Servo servoArm1;
+
     private DcMotor Arm = null;
 
     double suckpeed = 0;
@@ -94,6 +98,10 @@ public class TankDrive extends LinearOpMode {
         Zuck = hardwareMap.get(DcMotor.class, "Zuck");
         servoTest0 = hardwareMap.get(Servo.class, "servo1");
         servoTest1 = hardwareMap.get(Servo.class, "servo1");
+
+        servoArm0 = hardwareMap.get(Servo.class, "servoArm0");
+        servoArm1 = hardwareMap.get(Servo.class, "servoArm1");
+
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive0.setDirection(DcMotor.Direction.FORWARD);
@@ -123,6 +131,10 @@ public class TankDrive extends LinearOpMode {
             double tgtPower = 0;
             double suckspeed = gamepad2.right_trigger;
             double zuckspeed = gamepad2.left_trigger;
+
+            int armStartPosition = 0;
+            int armEndPosition = 120;
+
             //leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
             //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             rightArm.setPower(ArmPower);
@@ -176,12 +188,22 @@ public class TankDrive extends LinearOpMode {
                 rightDrive3.setPower(-driver*.7);
             }
 
+            double armPosition0 = servoArm0.getPosition();
+            //int armPosition1 = servoArm1.getCurrentPosition();
+
             if (gamepad1.a) {
-                Arm.setTargetPosition(0);
+                if (armPosition0 == armStartPosition) {
+                    servoArm0.setPosition(armEndPosition);
+                    servoArm1.setPosition(armEndPosition);
+                } else if  (armPosition0 == armEndPosition) {
+                    servoArm0.setPosition(armStartPosition);
+                    servoArm1.setPosition(armStartPosition);
+                } else if (armPosition0 < armEndPosition) {
+                    servoArm0.setPosition(armStartPosition);
+                    servoArm1.setPosition(armStartPosition);
+                }
             }
-            if (gamepad1.a) {
-                Arm.setTargetPosition(1);
-            }
+
             while (gamepad1.left_bumper) {
                 if (Arm.getTargetPosition() - 20 >= Arm.getCurrentPosition() && (Arm.getTargetPosition() + 20 <= Arm.getCurrentPosition())) {
                     Arm.setPower(0);
