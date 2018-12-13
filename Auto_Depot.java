@@ -60,17 +60,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class Auto_Depot extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot robot   = new HardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime     runtime = new ElapsedTime();
+    HardwarePushbot robot = new HardwarePushbot();   // Use a Pushbot's hardware
+    private ElapsedTime runtime = new ElapsedTime();
 
-    DcMotor  leftDrive0;
-    DcMotor  leftDrive1;
-    DcMotor  rightDrive2;
-    DcMotor  rightDrive3;
+    DcMotor leftDrive0;
+    DcMotor leftDrive1;
+    DcMotor rightDrive2;
+    DcMotor rightDrive3;
+    DcMotor rightArm;
+    DcMotor leftArm;
 
-    static final double     DRIVE_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
-    static final double     STOP    = 0.0;
+    static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double DRIVE_SPEED = 0.6;
+    static final double TURN_SPEED = 0.5;
+    static final double Arm_POWER= 0.8;
 
     @Override
 
@@ -82,10 +89,12 @@ public class Auto_Depot extends LinearOpMode {
          */
         robot.init(hardwareMap);
 
-        leftDrive0= hardwareMap.get(DcMotor.class, "left_drive0");
+        leftDrive0 = hardwareMap.get(DcMotor.class, "left_drive0");
         leftDrive1 = hardwareMap.get(DcMotor.class, "left_drive1");
         rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
         rightDrive3 = hardwareMap.get(DcMotor.class, "right_drive3");
+        rightArm = hardwareMap.get(DcMotor.class, "right_Arm");
+        leftArm = hardwareMap.get(DcMotor.class, "left_Arm");
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -100,13 +109,36 @@ public class Auto_Depot extends LinearOpMode {
         robot.leftDrive0.setPower(DRIVE_SPEED);
         robot.leftDrive1.setPower(DRIVE_SPEED);
         robot.rightDrive2.setPower(DRIVE_SPEED + .25);
-        robot.rightDrive3.setPower(-DRIVE_SPEED + .25);
+        robot.rightDrive3.setPower(DRIVE_SPEED + .25);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.4)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
+        leftArm.setPower(Arm_POWER);
+        rightArm.setPower(Arm_POWER);
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.4)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+
+
         robot.leftDrive0.setPower(-DRIVE_SPEED);
+        robot.leftDrive1.setPower(-DRIVE_SPEED);
+        robot.rightDrive2.setPower(-DRIVE_SPEED - .25);
+        robot.rightDrive3.setPower(-DRIVE_SPEED - .25);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.4)) {
+            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+    }
+}
+        /* robot.leftDrive0.setPower(-DRIVE_SPEED);
         robot.leftDrive1.setPower(-DRIVE_SPEED);
         robot.rightDrive2.setPower(-DRIVE_SPEED);
         robot.rightDrive3.setPower(DRIVE_SPEED);
@@ -115,5 +147,6 @@ public class Auto_Depot extends LinearOpMode {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+
     }
-}
+}*/

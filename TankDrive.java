@@ -129,7 +129,7 @@ public class TankDrive extends LinearOpMode {
             double driver =  -gamepad1.right_stick_y;
             double ArmPower = gamepad2.left_stick_y;
             double tgtPower = 0;
-            double suckspeed = gamepad2.right_trigger;
+            //double suckspeed = gamepad2.right_trigger * 2;
             double zuckspeed = gamepad2.left_trigger;
 
             int armStartPosition = 0;
@@ -146,7 +146,7 @@ public class TankDrive extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            while (gamepad2.left_bumper) {
+            /*while (gamepad2.left_bumper) {
                 if (rightArm.getTargetPosition() - 20 >= rightArm.getCurrentPosition() && (rightArm.getTargetPosition() + 20 <= rightArm.getCurrentPosition())) {
                     rightArm.setPower(0);
                 } else if (rightArm.getCurrentPosition() < rightArm.getTargetPosition()) {
@@ -174,7 +174,7 @@ public class TankDrive extends LinearOpMode {
             if (gamepad2.right_bumper) {
                 rightArm.setPower(0);
                 leftArm.setPower(0);
-            }
+            }*/
             if (gamepad1.left_bumper) {
                 leftDrive0.setPower(drivel);
                 leftDrive1.setPower(drivel);
@@ -188,23 +188,22 @@ public class TankDrive extends LinearOpMode {
                 rightDrive3.setPower(-driver*.7);
             }
 
+            //Zuck is programed like any other motor we dont care about fine tune control so we just go as simple as possible.
+            Zuck.setPower(zuckspeed);
+
             double armPosition0 = servoArm0.getPosition();
             //int armPosition1 = servoArm1.getCurrentPosition();
 
-            if (gamepad1.a) {
-                if (armPosition0 == armStartPosition) {
-                    servoArm0.setPosition(armEndPosition);
-                    servoArm1.setPosition(armEndPosition);
-                } else if  (armPosition0 == armEndPosition) {
-                    servoArm0.setPosition(armStartPosition);
-                    servoArm1.setPosition(armStartPosition);
-                } else if (armPosition0 < armEndPosition) {
-                    servoArm0.setPosition(armStartPosition);
-                    servoArm1.setPosition(armStartPosition);
-                }
+            if (gamepad2.dpad_down) {
+               servoArm0.setPosition(0);
+               servoArm1.setPosition(1);
+            }
+            if (gamepad2.dpad_down & gamepad2.b){
+                servoArm0.setPosition(1);
+                servoArm1.setPosition(0);
             }
 
-            while (gamepad1.left_bumper) {
+            /*while (gamepad2.left_bumper) {
                 if (Arm.getTargetPosition() - 20 >= Arm.getCurrentPosition() && (Arm.getTargetPosition() + 20 <= Arm.getCurrentPosition())) {
                     Arm.setPower(0);
                 } else if (Arm.getCurrentPosition() < Arm.getTargetPosition()) {
@@ -219,7 +218,7 @@ public class TankDrive extends LinearOpMode {
             }
             if (gamepad1.right_bumper) {
                 Arm.setPower(0);
-            }
+            }*/
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", drivel, driver);
@@ -228,11 +227,11 @@ public class TankDrive extends LinearOpMode {
             telemetry.addData("Arm_PositionL", leftArm.getCurrentPosition());
             telemetry.update();
 
-            if (gamepad2.right_trigger >= .05){
-                Zuck.setPower(suckspeed);
+            /*if (gamepad2.right_trigger >= .05){
+                Zuck.setPower(zuckspeed);
             }
             else if (gamepad2.left_trigger >= .05);
-            Zuck.setPower(-zuckspeed);
+            Zuck.setPower(-zuckspeed);*/
         }
     }
 }
