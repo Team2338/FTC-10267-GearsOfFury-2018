@@ -125,9 +125,9 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 1000000.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   50, -12, 1000000.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 1000000.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED,  48,  48, 500.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive(TURN_SPEED,   12, -12, 500.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, -24, -24, 500.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
         sleep(100000);     // pause for servos to move
 
@@ -153,9 +153,9 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-           /* newLeftTarget = leftDrive0.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newLeftTarget = leftDrive1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget =rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = leftDrive0.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+           // newLeftTarget = leftDrive1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+           // newRightTarget =rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             newRightTarget = rightDrive3.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             leftDrive0.setTargetPosition(newLeftTarget);
             leftDrive1.setTargetPosition(newLeftTarget);
@@ -166,7 +166,7 @@ public class PushbotAutoDriveByEncoder_Linear extends LinearOpMode {
             leftDrive0.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDrive3.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
+            rightDrive3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();

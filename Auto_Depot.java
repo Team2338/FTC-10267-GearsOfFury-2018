@@ -106,28 +106,28 @@ public class Auto_Depot extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        robot.leftDrive0.setPower(DRIVE_SPEED);
-        robot.leftDrive1.setPower(DRIVE_SPEED);
+        robot.leftDrive0.setPower(DRIVE_SPEED + .25);
+        robot.leftDrive1.setPower(DRIVE_SPEED + .25);
         robot.rightDrive2.setPower(DRIVE_SPEED + .25);
-        robot.rightDrive3.setPower(DRIVE_SPEED + .25);
+        robot.rightDrive3.setPower(-DRIVE_SPEED - .25);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.4)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        leftArm.setPower(Arm_POWER);
-        rightArm.setPower(Arm_POWER);
+        leftArm.setPower(-Arm_POWER);
+        rightArm.setPower(-Arm_POWER);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.4)) {
+        while (opModeIsActive() && (runtime.seconds() > 1.4)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
 
 
-        robot.leftDrive0.setPower(-DRIVE_SPEED);
+       /* robot.leftDrive0.setPower(-DRIVE_SPEED);
         robot.leftDrive1.setPower(-DRIVE_SPEED);
         robot.rightDrive2.setPower(-DRIVE_SPEED - .25);
         robot.rightDrive3.setPower(-DRIVE_SPEED - .25);
@@ -135,18 +135,6 @@ public class Auto_Depot extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds() < 1.4)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
-        }
+        }*/
     }
 }
-        /* robot.leftDrive0.setPower(-DRIVE_SPEED);
-        robot.leftDrive1.setPower(-DRIVE_SPEED);
-        robot.rightDrive2.setPower(-DRIVE_SPEED);
-        robot.rightDrive3.setPower(DRIVE_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
-            telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-
-    }
-}*/
